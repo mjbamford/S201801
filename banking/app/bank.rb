@@ -12,6 +12,7 @@ module Bank
   end
 
   def start
+    welcome
     balance = 0.0
     begin
       balance, finished = Dispatch.execute prompt, balance
