@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby -w
+
+require_relative 'test'
+require_relative 'dispatch_test'
+
+DispatchTest.test_for_dispatch_show_balance
