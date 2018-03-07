@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby -w
+require_relative 'arena'
+require_relative 'turtle'
+
+arena = Arena.new
+turtle = Turtle.new arena
+
+puts turtle.forward  # 1
+puts turtle.forward  # 2
+puts turtle.forward  # 3
+puts turtle.backward # 2
