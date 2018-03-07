@@ -11,6 +11,7 @@ class Dog
 
     def self.all
       # Return all dogs ever created
+      "in Dog::all"
     end
 
     def self.find id
@@ -57,10 +58,6 @@ class Dog
     end
 
     def birthday
-        message = @birthday.nil? ? "" : "not"
-        "Birthday is #{message} nil"
+        @birthday
     end
 end
-
-dog1 = Dog.new :female, :husky, name: 'Sugar'
-dog2 = Dog.new :male, :husky, name: 'Ralph'

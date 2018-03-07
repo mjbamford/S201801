@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby -w
+require_relative 'cyborg_dog'
+dog = CyborgDog.new name: 'Electric Fido'
+puts "The dog's name is #{dog.name}"
+puts "It's birthday is #{dog.birthday}"
