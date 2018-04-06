@@ -16,12 +16,19 @@ class UsersController < ApplicationController
   end
 
   def create
+    byebug
     # Bulk assignment with strong parameters
     # params = { user: { first_name: '...', last_name: '...' }}
-    permitted_params = params.require(:user).permit(:first_name, :last_name)
+    permitted_params = params.require(:user).permit(:first_name, :last_name, address_attributes: [ :street_number, :street_name ])
+
+    # @user = User.new permitted_params.except(:address)
+    # @user.build_address permitted_params[:address]
+    # address = Address.new permitted_params[:address]
+    # @user.address = address
     @user = User.new permitted_params
+
     if @user.save then
-      receive_uploaded_file
+      # receive_uploaded_file
       redirect_to @user
     else
       # What to do if save is unsuccessful?

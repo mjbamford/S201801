@@ -1,2 +1,11 @@
-<%= render 'form', user: @user %>
+<%#= render 'form', user: @user %>
 <%#= render partial: 'form', locals: { user: @user } %>
+
+<form action="/users" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+  <input type="text" name="user[first_name]">
+  <input type="text" name="user[last_name]">
+  <input type="text" name="user[address_attributes][street_number]">
+  <input type="text" name="user[address_attributes][street_name]">
+  <button type="submit">Create</button>
+</form>
