@@ -1,0 +1,15 @@
+<h2>Vanilla Rails form</h2>
+<%= form_tag url: "/users" do %>
+  <%= text_field_tag "user[first_name]" %>
+  <%= text_field_tag "user[last_name]" %>
+  <%= button_tag "Create", type: "submit" %>
+<% end %>
+
+<hr/>
+
+<h2>Vanilla HTML form</h2>
+<form action="/users" method="post">
+  <input type="text" name="user[first_name]">
+  <input type="text" name="user[last_name]">
+  <button type="submit">Create</button>
+</form>

@@ -1,0 +1,7 @@
+<h2>Resource form</h2>
+<%= form_for user do |f| %>
+  <%= f.text_field :first_name %>
+  <%= f.text_field :last_name %>
+  <%= f.file_field :image %>
+  <%= f.submit "Do Something" %>
+<% end %>
