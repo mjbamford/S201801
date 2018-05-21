@@ -14,12 +14,15 @@ function makePerson(firstName, lastName) {
     obj.name = {}
     obj.name.first = firstName
     obj.name.last = lastName
-    Object.setPrototypeOf(obj, person1)
+    // Set the __proto__ (referred in the documentation as [[Prototype]]
+    // obj.__proto__ = person1 // The black-art way
+    Object.setPrototypeOf(obj, person1) // Better way
     return obj
 }
 
+// Different ways to set the prototype
 // person2.__proto__ = person1 // Bad practice
-// person2.[[Prototype]] = person1 // No valid (documentation-style syntax)
+// person2.[[Prototype]] = person1 // No valid (documentation-only syntax)
 // Object.setPrototypeOf(person2, person1) // Very common
 // person2 = Object.create(person1, { name: { first: 'Jane', last: 'Smith' }}) // V very common
 
