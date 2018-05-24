@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Vanila Ajax</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="results"></div>
+
+    <script>
+      // jQuery Ajax GET
+      $(document).ready(function () {
+        $.ajax({
+          type: "GET",
+          url: "http://localhost:3000/students.json",
+          success: function (resp) { console.dir(resp); console.log('---') },
+          error: function () {}
+        })
+      })
+    </script>
+
+    <script>
+      // Vanilla Ajax GET
+      (function() {
+        const request = new XMLHttpRequest();
+        request.open('GET', 'https://randomuser.me/api/', true);
+        request.responseType = 'json'
+
+        // Obsolete way of determing the state of Ajax requests.
+        // request.onreadystatechange = function () {}
+
+        // onload callback; better, but best is addEventListener.
+        // request.onload = function () {}
+
+        // Modern way of accepting callbacks.
+        request.addEventListener('load', function () {
+          if (request.status >= 200 && request.status < 400) {
+            // Success!
+            const div = document.getElementById("results")
+            console.dir(request)
+            const text = document.createTextNode(request.response)
+            div.appendChild(text)
+          } else {
+            // We reached our target server, but it returned an error
+          }
+        });
+
+        // request.onerror = function () {
+        request.addEventListener('error', function () {
+        })
+
+        request.send();
+      })()
+    </script>
+</body></html>
