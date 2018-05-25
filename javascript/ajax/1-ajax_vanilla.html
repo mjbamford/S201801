@@ -9,6 +9,16 @@
     <div id="results"></div>
 
     <script>
+      // Modern `fetch` GET
+      document.addEventListener('DOMContentLoaded', function () {
+        fetch("http://localhost:3000/students.json")
+          .then(resp => resp.json())
+          .then(json => console.dir(json))
+          .catch(error => { console.dir(error) })
+      })
+    </script>
+
+    <script>
       // jQuery Ajax GET
       $(document).ready(function () {
         $.ajax({
@@ -38,7 +48,6 @@
           if (request.status >= 200 && request.status < 400) {
             // Success!
             const div = document.getElementById("results")
-            console.dir(request)
             const text = document.createTextNode(request.response)
             div.appendChild(text)
           } else {
