@@ -3,6 +3,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>Students</title>
     <body>
+      <div id="app"></div>
       <ul></ul>
       <hr>
       <form>
@@ -10,40 +11,81 @@
       </form>
 
       <script>
-        // Let's make student a proper 'class'!
-        function Student() {
+        class Students {
+          constructor(props) {
+            this._state = props
+          }
+
+          get state() {
+            return this._state
+          }
+
+          set state(newState) {
+            this._state = newState
+            this.render()
+          }
+
+          handleClick(event) {
+            alert('Got a click!')
+            console.dir(event)
+          }
+
+         render() {
+           if (this._root) {
+            // Task 2: Replace all the contents of _root (not merely append)
+            this._state.forEach(student => {
+              const li = document.createElement('li')
+              const text = student.first_name + " " + student.last_name
+              const textNode = document.createTextNode(text)
+              li.appendChild(textNode)
+              this._root.appendChild(li)
+            })
+            let button = document.createElement('button')
+            button.innerText = 'Click me!'
+            button.addEventListener('click', this.handleClick)
+            this._root.after(button)
+           }
+          }
+
+          mount(selector) {
+            this._root = document.querySelector(selector)
+            this.render()
+            return this
+          }
+
+         // Task 3: capture contenteditable input event
         }
 
-        // Instantiate students into an array 'students' hanging off a
-        // well-know repository (i.e. 'window')
-        const students = []
-        const form = document.querySelector('form')
-        const nameInput = form.querySelector('input')
-        const ul = document.querySelector('ul')
+// Instantiate students into an array 'students' hanging off a
+// well-know repository (i.e. 'window')
+const form = document.querySelector('form')
+const nameInput = form.querySelector('input')
 
-        form.addEventListener('submit', function(event) {
-          event.preventDefault()
-          // Learn the DOM via logging to the console...
-          console.dir(nameInput)
-          console.log(nameInput.constructor.name)
-          console.log(nameInput.value)
-          const names = nameInput.value.split(' ')
-          addStudent({ first_name: names[0], last_name: names[1] })
-        })
+form.addEventListener('submit', function(event) {
+  event.preventDefault()
+  // Learn the DOM via logging to the console...
+  console.dir(nameInput)
+  console.log(nameInput.constructor.name)
+  console.log(nameInput.value)
+  const names = nameInput.value.split(' ')
+  // Task 1: Use the Students component
+  addStudent({ first_name: names[0], last_name: names[1] })
+})
 
-        addStudent = (student) => {
-          const li = document.createElement('li')
-          const text = student.first_name + " " + student.last_name
-          const textNode = document.createTextNode(text)
-          li.appendChild(textNode)
-          ul.appendChild(li)
-        }
+domReady = new Promise((resolve, reject) => {
+  document.addEventListener('DOMContentLoaded', resolve)
+})
 
-        document.addEventListener('DOMContentLoaded', function () {
-          fetch('http://localhost:3000/students.json')
-            .then(resp => resp.json())
-            .then(students => students.forEach(student => addStudent(student)))
-        })
+Promise.all([
+  fetch('http://localhost:3000/students.json'),
+  domReady
+]).
+  then(([ resp, _ ]) => resp.json()).
+  then(students => {
+    window.students = new Students(students)
+    window.students.mount('ul')
+  })
+
       </script>
     </body>
   </head>
