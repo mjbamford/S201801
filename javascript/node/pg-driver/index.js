@@ -1,14 +1,15 @@
-// Example of importing an npm module
+// Example of importing an npm modules.
 const _ = require('lodash')
-
-// Example of importing our own module contained in a file
-const { students, teachers } = require('./app')
-
-// Express
-
 const express = require('express')
+const bodyParser = require('body-parser');
+
+// Example of importing out own module.
+const studentsRouter = require('./app/students')
+
 const app = express()
 const port = 4000
+
+app.use(bodyParser.json());
 
 // Middleware to log the request headers.
 app.use((req, resp, next) => {
@@ -16,10 +17,8 @@ app.use((req, resp, next) => {
   next()
 })
 
-// GET '/'; send (and complete) the response with a tet message
-app.get('/', (req, resp) => {
-  resp.send('Hello from Express')
-})
+// Mount students router upon '/students' route.
+app.use('/students', studentsRouter);
 
 // Start the server
 app.listen(port, (err) => {
