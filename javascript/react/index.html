@@ -28,15 +28,16 @@
             }
 
             const App = function ({ message, projectCount, finished }) {
+                const projects = [ 'My Awesome Project', 'My Not So Awesome Project' ]
+                const items = projects.map((project) => <Project title={project}/>)
+                console.dir(items)
+
                 return (
                     <div>
                         <NavBar/>
                         <h1>{ message }</h1>
-                        <Project title="My Awesome Project" />
-                        <Project title="My Awesome Project" />
-                        <Project title="My Awesome Project" />
-                        <Project title="My Awesome Project" />
-                        <Project title="My Awesome Project" />
+                        {items}
+                        <hr/>
                     </div>
                 )
             }
