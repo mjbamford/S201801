@@ -1,3 +1,8 @@
+const SUCCESS = 'SUCCESS'
+const FAILURE = 'FAILURE'
+const WAITING = 'WAITING'
+const IDLE = 'IDLE'
+
 function countWords (text) {
     let wordCount = 0
     let result = text.match(/\w+/g)
@@ -5,7 +10,62 @@ function countWords (text) {
     return wordCount
 }
 
-function Editor ({ onTextChange }) {
+function SaveButton ({ onClick }) {
+    return (
+        <button onClick={onClick}>Save</button>
+    )
+}
+
+function AlertBox ({ status }) {
+    if (status === FAILURE ) {
+        return <div>Failure</div>
+    } else if (status === SUCCESS) {
+        return <div>Success</div>
+    } else if (status === WAITING) {
+        return <div>Saving...</div>
+    } else {
+        return null
+    }
+}
+
+class SaveManager extends React.Component {
+    constructor (props) {
+        super(props)
+        this.state = { saveStatus: IDLE }
+    }
+
+    save = () => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (Math.random() > 0.5) {
+                    resolve()
+                } else {
+                    reject()
+                }
+            }, 1000)
+        })
+    }
+
+    handleSave = (event) => {
+        event.preventDefault()
+        this.setState(() => ({ saveStatus: WAITING }))
+        this.save().then(
+            success => (this.setState({ saveStatus: SUCCESS })),
+            failure => (this.setState({ saveStatus: FAILURE }))
+        )
+    }
+
+    render () {
+        return (
+            <div>
+                <SaveButton onClick={this.handleSave} />
+                <AlertBox status={this.state.saveStatus} />
+            </div>
+        )
+    }
+}
+
+function Editor ({ text, onTextChange }) {
     function handleChange (event) {
         onTextChange(event.target.value)
     }
@@ -13,7 +73,7 @@ function Editor ({ onTextChange }) {
     return (
         <div>
             <label>Enter your text:</label>
-            <textarea onChange={handleChange}></textarea>
+            <textarea value={text} onChange={handleChange}></textarea>
         </div>
     )
 }
@@ -78,10 +138,11 @@ class WordCounter extends React.Component {
 
         return (
             <form className="measure pa4 sans-serif">
-                <Editor onTextChange={this.handleTextChange} />
+                <Editor text={this.state.text} onTextChange={this.handleTextChange} />
                 <Counter count={wordCount} />
                 <CharacterCounter text={text} />
                 <ProgressBar completion={progress} />
+                <SaveManager data={this.state} />
             </form>
         )
     }
