@@ -11,8 +11,17 @@ function countWords (text) {
 }
 
 function SaveButton ({ onClick }) {
+    let makeFunc = function() {
+        let count = 0
+        let handler = function (event) {
+            event.preventDefault()
+            count++
+            console.dir(`Click count is: ${count}`)
+        }
+        return handler
+    }
     return (
-        <button onClick={onClick}>Save</button>
+        <button onClick={makeFunc()}>Save</button>
     )
 }
 
@@ -32,6 +41,7 @@ class SaveManager extends React.Component {
     constructor (props) {
         super(props)
         this.state = { saveStatus: IDLE }
+        this.handleSave = this.handleSave.bind(this)
     }
 
     save = () => {
@@ -46,7 +56,10 @@ class SaveManager extends React.Component {
         })
     }
 
-    handleSave = (event) => {
+    // handleSave = (event) => {
+    // Either use pointer function syntax, or a function statement that is
+    // bound to this instance in the constructor (with `bind`).
+    handleSave (event) {
         event.preventDefault()
         this.setState(() => ({ saveStatus: WAITING }))
         this.save().then(
