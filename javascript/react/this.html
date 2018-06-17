@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+  </head>
+
+  <body>
+    <script>
+      (function () {
+        let obj = {
+          f: function () {
+            return this
+          },
+
+          g: function () {
+            let x = function () { return this }
+            return x()
+            // Same as above
+            // return (function () { return this })()
+          },
+
+          h: function () {
+            let x = () => { return this }
+            return x()
+            // Same as above
+            // return (() => { return this })()
+          },
+
+          i: function () {
+            let x = function () { return this }
+            return x.call(this)
+            // Same as above
+            // return (function () { return this }).call(this)
+          },
+
+          j: function () {
+            let x = function () { return this }
+            x = x.bind(this)
+            return x()
+          }
+        }
+
+        console.group('obj.f()=')
+        console.dir(obj.f())
+        console.groupEnd()
+
+        console.group('a = obj.f; a()=')
+        let a = obj.f
+        console.dir(a())
+        console.groupEnd()
+
+        console.group('window.a = obj.f; window.a()=')
+        window.a = obj.f
+        console.dir(window.a())
+        console.groupEnd()
+
+        console.group('thief.a = obj.f; thief.a()=')
+        let thief = {
+            name: 'thief',
+            a: obj.f
+        }
+        console.dir(thief.a())
+        console.groupEnd()
+
+        console.group('obj.g()=')
+        console.dir(obj.g())
+        console.groupEnd()
+
+        console.group('obj.h()=')
+        console.dir(obj.h())
+        console.groupEnd()
+
+        console.group('obj.i()=')
+        console.dir(obj.i())
+        console.groupEnd()
+
+        console.group('obj.j()=')
+        console.dir(obj.j())
+        console.groupEnd()
+      })()
+    </script>
+  </body>
+</html>
