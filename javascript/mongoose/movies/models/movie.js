@@ -1,11 +1,21 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const { Schema, mongoose } = require('./db')
 
-mongoose.connect('mongodb://localhost/movies')
+const CommentSchema = Schema({
+    body: String
+})
 
 const MovieSchema = Schema({
     title: String,
-    yearReleased: Number
+    rating: {
+        code: String,
+        description: String
+    },
+    yearReleased: { type: Number },
+    comments: [ CommentSchema ],
+    director: {
+        type: Schema.Types.ObjectId,
+        ref: 'Person'
+    }
 })
 
 const Movie = mongoose.model('Movie', MovieSchema)
