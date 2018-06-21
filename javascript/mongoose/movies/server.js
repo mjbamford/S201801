@@ -15,7 +15,7 @@ server.use(session({
 )
 
 server.get('/movies', (req, resp) => {
-    // Get all movies out of the database
+    // What is the req object
     let count = req.session.count || 1
     console.log(`count=${count}`)
     req.session.count = (count + 1)
@@ -40,6 +40,14 @@ server.post('/movies', (req, resp) => {
 
 server.get('/test', (req, resp) => {
     resp.send('OK!')
+})
+
+server.put('/movies/:id', (req, resp) => {
+    const id = req.params.id
+    const movie = req.body
+    Movie.findByIdAndUpdate(id, movie, {new: true}, (movie) => {
+        return resp.send(movie)
+    })
 })
 
 server.listen(3000)
