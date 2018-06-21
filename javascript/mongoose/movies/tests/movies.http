@@ -4,14 +4,30 @@ http://localhost:3000/test
 http://localhost:3000/movies
 
 ###
-http://localhost:3000/movies/5b2867455dacd427955611ed
+http://localhost:3000/movies/5b2b1e5c1ca46d15d310d156
 
 ###
 POST http://localhost:3000/movies
 Content-type: application/json
 
 {
-    "title": "Wonder Woman",
+    "title": "Jumanji",
+    "yearReleased": 2017,
+    "rating": { "code": "PG", "description": "Parent's Guidance" },
+    "comments": [
+        { "body": "This is a great movie" },
+        { "body": "This is a terrible movie" }
+    ],
+    "director": "5b29b3ece288909215ca20eb"
+}
+
+###
+
+PUT http://localhost:3000/movies/5b2b46b51ca46d15d310d15c
+Content-Type: application/json
+
+{
+    "title": "Twister",
     "yearReleased": 2017,
     "rating": { "code": "PG", "description": "Parent's Guidance" },
     "comments": [
