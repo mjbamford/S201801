@@ -1,0 +1,14 @@
+doctype
+html
+  head
+    title Log In
+  body
+    h1= message
+    form(action="/session" method="post")
+        div
+            label Email:
+                input(type="text" name="email")
+        div
+            label Password:
+                input(type="password" name="password")
+        button(type="submit") Login
