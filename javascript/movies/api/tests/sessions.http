@@ -1,0 +1,7 @@
+http://localhost:3000/session/new
+
+###
+POST http://localhost:3000/session
+Content-Type: application/x-www-form-urlencoded
+
+email=john.brown%40example.com&password=password1
