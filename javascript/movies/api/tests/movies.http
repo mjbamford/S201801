@@ -30,7 +30,7 @@ Content-type: application/json
     "yearReleased": 2010,
     "rating": { "code": "PG", "description": "Parent's Guidance" },
     "comments": [
-        { "body": "Dreaful moveie" },
+        { "body": "Dreadful spelling" },
         { "body": "Waste of time" }
     ],
     "director": "5b29b3ece288909215ca20eb"
