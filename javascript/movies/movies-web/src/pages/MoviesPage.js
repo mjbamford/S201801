@@ -5,33 +5,21 @@ import Movie from '../components/Movie'
 
 export default ({ movies }) => {
     return (
-        <div>
-            { !!movies ? (
-                <Switch>
-                    <Route path='/movies/:id' render={
-                        ({ match: { params: { id }}}) => {
-                            const movie = movies.find(movie => movie._id === id)
-                            return (!!movie) ? (<Movie {...movie} />) : (<p>Unknown Movie</p>)
-                        }
-                    }/>
+        !!movies ? (
+            <Switch>
+                <Route path='/movies/:id' render={
+                    ({ match: { params: { id } } }) => {
+                        const movie = movies.find(movie => movie._id === id)
+                        return (!!movie) ? (<Movie {...movie} />) : (<p>Unknown Movie</p>)
+                    }
+                } />
 
-                    <Route path='/movies' render={
-                        () => (<MovieList items={movies} />)
-                    }/>
-                </Switch>
-            ) : (
-                <p>'Loading...</p>
-            )}
-        </div>
-
-
-
+                <Route path='/movies' render={
+                    () => (<MovieList items={movies} />)
+                } />
+            </Switch>
+        ) : (
+            <p>'Loading...</p>
+        )
     )
-        
-    // if (!!this.state.movies) {
-    //   const id = match.params.id
-    //   return <Movie {...movie} />
-    // } else {
-    //   return (null)
-    // }
 }
