@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import MovieList from './components/MovieList'
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom' 
+import HomePage from './pages/HomePage'
+import MoviesPage from './pages/MoviesPage'
 import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = { movies: [] }
+    this.state = { movies: null }
   }
 
   componentDidMount() {
@@ -17,13 +18,25 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to Movies!</h1>
-        </header>
-        <MovieList items={this.state.movies} />
-      </div>
+      <Router>
+        <main>
+          <div className="App">
+            <header className="App-header">
+              <h1 className="App-title">Welcome to Movies!</h1>
+            </header>
+
+            <nav>
+              <NavLink exact to='/' activeClassName='selected'>Home</NavLink>
+              <NavLink exact to='/movies' activeClassName='selected'>Movies</NavLink>
+            </nav>
+
+            <Route exact path='/' component={HomePage} />
+            <Route path='/movies' render={
+              () => <MoviesPage movies={this.state.movies} />
+            }/>
+          </div>
+        </main>
+      </Router>
     );
   }
 }

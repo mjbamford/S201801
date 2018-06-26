@@ -20,3 +20,18 @@ Content-type: application/json
     ],
     "director": "5b29b3ece288909215ca20eb"
 }
+
+###
+POST http://localhost:3000/movies
+Content-type: application/json
+
+{
+    "title": "Superman",
+    "yearReleased": 2010,
+    "rating": { "code": "PG", "description": "Parent's Guidance" },
+    "comments": [
+        { "body": "Dreaful moveie" },
+        { "body": "Waste of time" }
+    ],
+    "director": "5b29b3ece288909215ca20eb"
+}
