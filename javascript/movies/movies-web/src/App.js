@@ -10,6 +10,27 @@ class App extends Component {
     this.state = { movies: null }
   }
 
+  handleCreateMovie = (movie) => {
+    // Accept new movie properties - DONE
+    // Save it to the api - DONE
+    // Add the newly created movie to the state - DONE
+    fetch('/movies', {
+      method: 'POST',
+      body: JSON.stringify(movie),
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    .then(resp => resp.json())
+    .then(json => { console.dir(json); return Promise.resolve(json) })
+    .then(movie => {
+      this.setState((prevState) => {
+        const allMovies = [ movie ].concat(prevState.movies)
+        return { movies: allMovies }
+      }) 
+    })
+  }
+
   componentDidMount() {
     fetch('/movies')
     .then(resp => resp.json())
@@ -28,11 +49,12 @@ class App extends Component {
             <nav>
               <NavLink exact to='/' activeClassName='selected'>Home</NavLink>
               <NavLink exact to='/movies' activeClassName='selected'>Movies</NavLink>
+              <NavLink exact to='/movies/new' activeClassName='selected'>Create a Movie!</NavLink>
             </nav>
 
             <Route exact path='/' component={HomePage} />
             <Route path='/movies' render={
-              () => <MoviesPage movies={this.state.movies} />
+              () => <MoviesPage movies={this.state.movies} onCreateMovie={this.handleCreateMovie} />
             }/>
           </div>
         </main>

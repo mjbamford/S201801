@@ -3,10 +3,41 @@ import { Route, Switch } from 'react-router-dom'
 import MovieList from '../components/MovieList'
 import Movie from '../components/Movie'
 
-export default ({ movies }) => {
+const handleSubmit = (event, onCreate) => {
+    event.preventDefault()
+    const form = event.target
+    const title = form['movie[title]'].value
+    const yearReleased = form['movie[yearReleased]'].value
+    onCreate({ title, yearReleased })
+}
+
+const MovieForm = ({ onCreate }) => {
+    return (
+        <div>
+            <h4>Create a new movie</h4>
+            <form onSubmit={(event) => handleSubmit(event, onCreate)}>
+                <label>
+                    <span>Title</span>
+                    <input name="movie[title]"/>
+                </label>
+                <label>
+                    <span>Year Released</span>
+                    <input name="movie[yearReleased]"/>
+                </label>
+                <button type='submit'>Create!</button>
+            </form>
+        </div>
+    )
+}
+
+const MoviesPage = ({ movies, onCreateMovie }) => {
     return (
         !!movies ? (
             <Switch>
+                <Route path='/movies/new' render={
+                    () => (<MovieForm onCreate={onCreateMovie} />)
+                }/>
+
                 <Route path='/movies/:id' render={
                     ({ match: { params: { id } } }) => {
                         const movie = movies.find(movie => movie._id === id)
@@ -23,3 +54,5 @@ export default ({ movies }) => {
         )
     )
 }
+
+export default MoviesPage
