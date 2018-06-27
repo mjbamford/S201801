@@ -25,6 +25,8 @@ class App extends Component {
     .then(json => { console.dir(json); return Promise.resolve(json) })
     .then(movie => {
       this.setState((prevState) => {
+        // Don't manipulate data structures within the state.
+        // Notify React of state changes, passing new data structures.
         const allMovies = [ movie ].concat(prevState.movies)
         return { movies: allMovies }
       }) 
