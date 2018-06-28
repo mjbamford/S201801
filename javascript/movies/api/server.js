@@ -25,6 +25,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 server.use([
+    require('./routes/auth'),
     require('./routes/sessions'),
     require('./routes/movies')
 ])
