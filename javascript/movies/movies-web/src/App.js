@@ -14,7 +14,7 @@ class App extends Component {
     }
   }
 
-  handleLogin = (token) => {
+  handleLogIn = (token) => {
     this.setState(prevState => ({
       movies: prevState.movies,
       token: token
@@ -71,7 +71,7 @@ class App extends Component {
               () => <MoviesPage movies={this.state.movies} onCreateMovie={this.handleCreateMovie} />
             }/>
             <Route path='/signin' render={
-              () => <SignInForm onLogIn={this.handleLogin} />
+              () => <SignInForm onLogIn={this.handleLogIn} />
             }/>
           </div>
         </main>

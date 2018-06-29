@@ -7,7 +7,7 @@ const handleSubmit = (event, onLogIn) => {
     const password = form["user[password]"].value
     console.dir({ email, password })
     // Go out to /auth/signin
-    onLogin("666")
+    onLogIn("666")
 }
 
 function SignInForm ({ onLogIn }) {
