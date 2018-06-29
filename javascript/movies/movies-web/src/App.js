@@ -2,12 +2,23 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom' 
 import HomePage from './pages/HomePage'
 import MoviesPage from './pages/MoviesPage'
+import SignInForm from './components/SignInForm'
 import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = { movies: null }
+    this.state = {
+      movies: null,
+      token: null
+    }
+  }
+
+  handleLogin = (token) => {
+    this.setState(prevState => ({
+      movies: prevState.movies,
+      token: token
+    }))
   }
 
   handleCreateMovie = (movie) => {
@@ -50,6 +61,7 @@ class App extends Component {
 
             <nav>
               <NavLink exact to='/' activeClassName='selected'>Home</NavLink>
+              <NavLink to='/signin' activeClassName='selected'>Sign In</NavLink>
               <NavLink exact to='/movies' activeClassName='selected'>Movies</NavLink>
               <NavLink exact to='/movies/new' activeClassName='selected'>Create a Movie!</NavLink>
             </nav>
@@ -57,6 +69,9 @@ class App extends Component {
             <Route exact path='/' component={HomePage} />
             <Route path='/movies' render={
               () => <MoviesPage movies={this.state.movies} onCreateMovie={this.handleCreateMovie} />
+            }/>
+            <Route path='/signin' render={
+              () => <SignInForm onLogIn={this.handleLogin} />
             }/>
           </div>
         </main>
