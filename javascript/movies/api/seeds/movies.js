@@ -11,3 +11,4 @@ Movie.create([
         yearReleased: 2017
     }
 ])
+.then(() => { process.exit })
