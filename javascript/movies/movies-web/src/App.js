@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom' 
+import { BrowserRouter as Router, Route, NavLink, Redirect } from 'react-router-dom' 
 import HomePage from './pages/HomePage'
 import MoviesPage from './pages/MoviesPage'
 import SignInForm from './components/SignInForm'
@@ -10,14 +10,23 @@ class App extends Component {
     super(props)
     this.state = {
       movies: null,
-      token: null
+      token: localStorage.getItem('token')
     }
   }
 
   handleLogIn = (token) => {
+    localStorage.setItem('token', token)
     this.setState(prevState => ({
       movies: prevState.movies,
       token: token
+    }))
+  }
+
+  handleLogOut = () => {
+    localStorage.removeItem('token')
+    this.setState(prevState => ({
+      movies: prevState.movies,
+      token: null
     }))
   }
 
@@ -45,12 +54,29 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('/movies')
+    fetch('https://movies-api.now.sh/movies', {
+      headers: { "Authorization": `Bearer ${this.state.token}` }
+    })
+    .then(resp => {
+      console.dir(resp)
+      if (!resp.ok) {
+        throw new Error("error!")
+      } else {
+        return resp
+      }
+    })
     .then(resp => resp.json())
     .then(json => this.setState({ movies: json }))
+    .catch(resp => {
+      this.setState({ movies: [] })
+    })
   }
 
   render() {
+    const isSignedIn = () => {
+      return !!this.state.token
+    }
+
     return (
       <Router>
         <main>
@@ -61,17 +87,38 @@ class App extends Component {
 
             <nav>
               <NavLink exact to='/' activeClassName='selected'>Home</NavLink>
-              <NavLink to='/signin' activeClassName='selected'>Sign In</NavLink>
+              {
+                isSignedIn() ? (
+                  <NavLink to='/signout' activeClassName='selected'>Sign Out</NavLink>
+                ) : (
+                  <NavLink to='/signin' activeClassName='selected'>Sign In</NavLink>
+                )
+              }
               <NavLink exact to='/movies' activeClassName='selected'>Movies</NavLink>
               <NavLink exact to='/movies/new' activeClassName='selected'>Create a Movie!</NavLink>
             </nav>
 
             <Route exact path='/' component={HomePage} />
+
             <Route path='/movies' render={
               () => <MoviesPage movies={this.state.movies} onCreateMovie={this.handleCreateMovie} />
             }/>
+
             <Route path='/signin' render={
-              () => <SignInForm onLogIn={this.handleLogIn} />
+              () => (
+                isSignedIn() ? (
+                    <Redirect to='/movies' />
+                ) : (
+                    <SignInForm onLogIn={this.handleLogIn} />
+                )
+              )
+            }/>
+
+            <Route path='/signout' render={
+              () => {
+                this.handleLogOut()
+                return <Redirect to='/signin' />
+              }
             }/>
           </div>
         </main>

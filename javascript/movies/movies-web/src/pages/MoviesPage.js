@@ -50,7 +50,7 @@ const MoviesPage = ({ movies, onCreateMovie }) => {
                 } />
             </Switch>
         ) : (
-            <p>'Loading...</p>
+            <p>Loading...</p>
         )
     )
 }
