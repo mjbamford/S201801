@@ -8,8 +8,9 @@ Authorization: Bearer 666
 http://localhost:3000/movies/5b2867455dacd427955611ed
 
 ###
-POST http://localhost:3000/movies
+POST http://localhost:7000/movies
 Content-type: application/json
+Authorization: Bearer 666
 
 {
     "title": "Wonder Woman",
