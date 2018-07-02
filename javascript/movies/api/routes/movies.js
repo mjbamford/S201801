@@ -5,6 +5,12 @@ const authMiddleware = require('../middleware/auth')
 
 router.get('/movies',
     // authMiddleware.requireJWT,
+    (req, resp, next) => {
+        console.dir(req.constructor.name)
+        console.log(req.get('Authorization'))
+        next()
+    },
+    authMiddleware.require666,
     (req, resp) => {
         // Get all movies out of the database
         Movie.find({}).populate('director').then(movies => {

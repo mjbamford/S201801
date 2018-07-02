@@ -1,7 +1,8 @@
 http://localhost:3000/test
 
 ###
-http://localhost:3000/movies
+http://localhost:7000/movies
+Authorization: Bearer 666
 
 ###
 http://localhost:3000/movies/5b2867455dacd427955611ed

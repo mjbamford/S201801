@@ -63,9 +63,19 @@ function signJWTForUser (req, resp, next) {
     resp.json({ token })
 }
 
+function require666 (req, resp, next) {
+    // Need "Bearer 666" to be authorised
+    if (req.get("Authorization") === "Bearer 666") {
+        next()
+    } else {
+        resp.status(401).json({ "status": "unauthorized" })
+    }
+}
+
 module.exports = {
     register,
     signJWTForUser,
     signIn: passport.authenticate('local', { session: false }),
-    requireJWT: passport.authenticate('jwt', { session: false })
+    requireJWT: passport.authenticate('jwt', { session: false }),
+    require666
 }

@@ -3,7 +3,7 @@ POST http://localhost:7000/auth/register
 Content-Type: application/json
 
 { 
-    "email": "jack6@example.com",
+    "email": "john.brown@example.com",
     "password": "password1",
     "firstName": "Jack",
     "lastName": "Citizen"
@@ -14,11 +14,11 @@ POST http://localhost:7000/auth
 Content-Type: application/json
 
 { 
-    "email": "jack5@example.com",
+    "email": "john.brown@example.com",
     "password": "password1"
 }
 
 ###
 http://localhost:7000/movies
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphY2s1QGV4YW1wbGUuY29tIiwiaWF0IjoxNTMwMjM4NzY3LCJleHAiOjE1MzA4NDM1NjcsInN1YiI6IjViMzU4M2Y5YjUzYzY4NjA3MWY5NzRmZSJ9.VRpsy45qs_GvwvS3VS9yQCRylG7W5qrQYjokwgY2ogc
+Authorization: Bearer 
