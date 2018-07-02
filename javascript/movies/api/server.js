@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 const session = require('express-session')
 const passport = require('passport')
 const User = require('./models/user');
@@ -12,6 +13,7 @@ server.set('view engine', 'pug')
 
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: true }))
+server.use(cors({ origin: '*' }))
 server.use(session({
     secret: 'my secret',
     resave: false,
