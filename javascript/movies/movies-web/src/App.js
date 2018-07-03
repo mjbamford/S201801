@@ -3,9 +3,8 @@ import { BrowserRouter as Router, Route, NavLink, Redirect } from 'react-router-
 import HomePage from './pages/HomePage'
 import MoviesPage from './pages/MoviesPage'
 import SignInForm from './components/SignInForm'
-import * as movieApi from './api/movies'
+import * as moviesApi from './api/movies'
 import './App.css';
-
 class App extends Component {
   constructor(props) {
     super(props)
@@ -17,7 +16,7 @@ class App extends Component {
 
   handleLogIn = (token) => {
     localStorage.setItem('token', token)
-    movieApi.list({ token })
+    moviesApi.list({ token })
     .catch(resp => [])
     .then(movies => this.setState({ movies, token }))
   }
@@ -31,10 +30,10 @@ class App extends Component {
   }
 
   handleCreateMovie = (movie) => {
-    const api = (!!movie._id) ? movieApi.update : movieApi.create
+    const api = (!!movie._id) ? moviesApi.update : moviesApi.create
     const token = this.state.token
 
-    api.call(movieApi, { token, movie })
+    api({ token, movie })
     .then(movie => {
       this.setState((prevState) => {
         // Don't manipulate data structures within the state.
@@ -46,9 +45,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    movieApi.list({ token: this.state.token })
-    .catch(resp => [])
-    .then(movies => this.setState({ movies }))
+    return moviesApi.list({ token: this.state.token })
+      .catch(resp => [])
+      .then(movies => this.setState({ movies }))
   }
 
   render() {

@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Movie displays the title and yearReleased 1`] = `
+<div>
+  <a
+    href="/movies/666"
+    onClick={[Function]}
+  >
+    Title
+  </a>
+  <span>
+    1990
+  </span>
+  <span>
+     
+  </span>
+  <small>
+    <a
+      href="/movies/666/edit"
+      onClick={[Function]}
+    >
+      Edit
+    </a>
+  </small>
+  <ul />
+</div>
+`;
