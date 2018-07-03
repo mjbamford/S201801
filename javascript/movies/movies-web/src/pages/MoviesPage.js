@@ -11,18 +11,19 @@ const handleSubmit = (event, onCreate) => {
     onCreate({ title, yearReleased })
 }
 
-const MovieForm = ({ onCreate }) => {
+const MovieForm = ({ movie, onCreate }) => {
+    movie = movie || {}
     return (
         <div>
             <h4>Create a new movie</h4>
             <form onSubmit={(event) => handleSubmit(event, onCreate)}>
                 <label>
                     <span>Title</span>
-                    <input name="movie[title]"/>
+                    <input defaultValue={movie.title} name="movie[title]"/>
                 </label>
                 <label>
                     <span>Year Released</span>
-                    <input name="movie[yearReleased]"/>
+                    <input defaultValue={movie.yearReleased} name="movie[yearReleased]"/>
                 </label>
                 <button type='submit'>Create!</button>
             </form>
@@ -38,8 +39,16 @@ const MoviesPage = ({ movies, onCreateMovie }) => {
                     () => (<MovieForm onCreate={onCreateMovie} />)
                 }/>
 
+                <Route path='/movies/:id/edit' render={
+                    ({ match }) => {
+                        const { params: { id }} = match
+                        const movie = movies.find(movie => movie._id === id)
+                        return <MovieForm movie={movie} />
+                    }
+                }/>
+
                 <Route path='/movies/:id' render={
-                    ({ match: { params: { id } } }) => {
+                    ({ match: { params: { id }}}) => {
                         const movie = movies.find(movie => movie._id === id)
                         return (!!movie) ? (<Movie {...movie} />) : (<p>Unknown Movie</p>)
                     }

@@ -13,7 +13,7 @@ server.set('view engine', 'pug')
 
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: true }))
-server.use(cors({ origin: '*' }))
+server.use(cors({ origin: process.env.CORS_ORIGINS.split(',') }))
 server.use(session({
     secret: 'my secret',
     resave: false,

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, NavLink, Redirect } from 'react-router-
 import HomePage from './pages/HomePage'
 import MoviesPage from './pages/MoviesPage'
 import SignInForm from './components/SignInForm'
+import * as movieApi from './api/movies'
 import './App.css';
 
 class App extends Component {
@@ -16,10 +17,9 @@ class App extends Component {
 
   handleLogIn = (token) => {
     localStorage.setItem('token', token)
-    this.setState(prevState => ({
-      movies: prevState.movies,
-      token: token
-    }))
+    movieApi.list({ token })
+    .catch(resp => [])
+    .then(movies => this.setState({ movies, token }))
   }
 
   handleLogOut = () => {
@@ -31,18 +31,14 @@ class App extends Component {
   }
 
   handleCreateMovie = (movie) => {
-    // Accept new movie properties - DONE
-    // Save it to the api - DONE
-    // Add the newly created movie to the state - DONE
-    fetch('/movies', {
-      method: 'POST',
-      body: JSON.stringify(movie),
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-    .then(resp => resp.json())
-    .then(json => { console.dir(json); return Promise.resolve(json) })
+    // if (movie._id) {
+    //   movieApi.update({ token: this.state.token, movie })
+    // } else {
+    //   movieApi.create({ token: this.state.token, movie })
+    // }
+    const funct = (!!movie._id) ? movieApi.update : movieApi.create
+
+    funct.call(movieApi, { token: this.state.token, movie })
     .then(movie => {
       this.setState((prevState) => {
         // Don't manipulate data structures within the state.
@@ -54,22 +50,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('https://movies-api.now.sh/movies', {
-      headers: { "Authorization": `Bearer ${this.state.token}` }
-    })
-    .then(resp => {
-      console.dir(resp)
-      if (!resp.ok) {
-        throw new Error("error!")
-      } else {
-        return resp
-      }
-    })
-    .then(resp => resp.json())
-    .then(json => this.setState({ movies: json }))
-    .catch(resp => {
-      this.setState({ movies: [] })
-    })
+    movieApi.list({ token: this.state.token })
+    .catch(resp => [])
+    .then(movies => this.setState({ movies }))
   }
 
   render() {
@@ -89,7 +72,7 @@ class App extends Component {
               <NavLink exact to='/' activeClassName='selected'>Home</NavLink>
               {
                 isSignedIn() ? (
-                  <NavLink to='/signout' activeClassName='selected'>Sign Out</NavLink>
+                  <NavLink to='/signout' onClick={this.handleLogOut} activeClassName='selected'>Sign Out</NavLink>
                 ) : (
                   <NavLink to='/signin' activeClassName='selected'>Sign In</NavLink>
                 )
@@ -115,10 +98,7 @@ class App extends Component {
             }/>
 
             <Route path='/signout' render={
-              () => {
-                this.handleLogOut()
-                return <Redirect to='/signin' />
-              }
+              () => (<Redirect to='/signin' />)
             }/>
           </div>
         </main>
