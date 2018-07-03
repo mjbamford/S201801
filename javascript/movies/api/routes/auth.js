@@ -3,11 +3,6 @@ const authMiddleware = require('../middleware/auth')
 
 const router = express.Router()
 
-router.use((req, resp, next) => {
-    console.dir(req.body)
-    next()
-})
-
 // Sign Up
 router.post('/auth/register',
     // 1. Register a user with username/password

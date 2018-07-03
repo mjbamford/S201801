@@ -63,6 +63,7 @@ function signJWTForUser (req, resp, next) {
     resp.json({ token })
 }
 
+// A hobby middleware to illustrate Authorization header check.
 function require666 (req, resp, next) {
     // Need "Bearer 666" to be authorised
     if (req.get("Authorization") === "Bearer 666") {

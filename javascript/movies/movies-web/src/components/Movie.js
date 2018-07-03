@@ -17,6 +17,9 @@ const Movie = ({
         <Link to={`/movies/${_id}`}>{title}</Link>
         <span>{yearReleased}</span>
         <Rating {...rating} />
+        <small>
+            <Link to={`/movies/${_id}/edit`}>Edit</Link>
+        </small>
         <CommentList items={comments} />
     </div>)
 }

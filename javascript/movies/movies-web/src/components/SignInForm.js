@@ -1,13 +1,19 @@
 import React from 'react'
+import * as authApi from '../api/auth'
+
+const fields = {
+    email: "user[email]",
+    password: "user[password]"
+}
 
 const handleSubmit = (event, onLogIn) => {
     event.preventDefault()
     const form = event.target
-    const email = form["user[email]"].value
-    const password = form["user[password]"].value
-    console.dir({ email, password })
-    // Go out to /auth/signin
-    onLogIn("666")
+    const email = form[fields.email].value
+    const password = form[fields.password].value
+
+    authApi.logIn({ email, password })
+    .then(token => { console.dir(token); onLogIn(token) })
 }
 
 function SignInForm ({ onLogIn }) {

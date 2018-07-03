@@ -31,14 +31,10 @@ class App extends Component {
   }
 
   handleCreateMovie = (movie) => {
-    // if (movie._id) {
-    //   movieApi.update({ token: this.state.token, movie })
-    // } else {
-    //   movieApi.create({ token: this.state.token, movie })
-    // }
-    const funct = (!!movie._id) ? movieApi.update : movieApi.create
+    const api = (!!movie._id) ? movieApi.update : movieApi.create
+    const token = this.state.token
 
-    funct.call(movieApi, { token: this.state.token, movie })
+    api.call(movieApi, { token, movie })
     .then(movie => {
       this.setState((prevState) => {
         // Don't manipulate data structures within the state.
