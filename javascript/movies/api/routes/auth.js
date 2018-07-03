@@ -13,6 +13,9 @@ router.post('/auth/register',
 
 // Sign In
 router.post('/auth', 
+    (req, resp, next) => {
+        console.dir(req)
+    },
     // 1. Authorise via username/password
     authMiddleware.signIn,
     // 2. Create and return a new JWT
